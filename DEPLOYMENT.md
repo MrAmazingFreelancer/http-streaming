@@ -16,8 +16,10 @@ variable, defaulting to port 3000 locally. It serves the generated `dist/` files
 at both `/dist/` and the URL root. For example, the browser bundle is available
 at `/dist/videojs-http-streaming.min.js`.
 
-The home page links to the library bundle. This deployment serves the library;
-to play videos, load the bundle into a page with a Video.js player.
+The home page contains a Video.js player with HLS and MP4 samples and a form for
+loading HLS, DASH, or MP4 media URLs. The Video.js core, CSS, and streaming bundle
+are served locally. Sample media is hosted externally; custom HLS and DASH
+sources must permit cross-origin requests and use HTTPS on a secure deployment.
 
 Use `npm run dev` for the original Karma server and build watcher. Use
 `npm run build-test` to build the test bundle.
