@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Play and test HLS, DASH, and MP4 video streams with Video.js.">
+  <title>Stream Player | Video.js HTTP Streaming</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/videojs/video-js.min.css">
+  <link rel="stylesheet" href="/player.css">
+  <script defer src="/assets/videojs/alt/video.core.min.js"></script>
+  <script defer src="/dist/videojs-http-streaming.min.js"></script>
+  <script defer src="/player.js"></script>
+</head>
+<body>
+  <header class="masthead">
+    <a class="brand" href="/" aria-label="Stream Player home"><span class="brand-icon" aria-hidden="true">▶</span> VHS <span class="brand-divider">/</span> <span class="brand-subtitle">STREAM PLAYER</span></a>
+    <span class="powered">Powered by Video.js</span>
+  </header>
+  <main>
+    <div class="intro">
+      <div><p class="eyebrow">PRESS PLAY</p><h1>Your stream. Your screen.</h1><p class="description">Test a video stream or settle in with a sample. Playback starts with you.</p></div>
+      <div class="formats" aria-label="Supported formats"><span>HLS</span><span>DASH</span><span>MP4</span></div>
+    </div>
+    <section class="player-card" aria-label="Video player">
+      <video id="stream-player" class="video-js vjs-big-play-centered" controls playsinline preload="metadata" aria-label="Stream video player">
+        <p class="vjs-no-js">Enable JavaScript to use this video player.</p>
+      </video>
+      <div class="player-caption"><span id="stream-name">HLS sample · Big Buck Bunny</span><span id="playback-status" role="status" aria-live="polite">Loading sample…</span></div>
+    </section>
+    <div id="player-error" class="error" role="alert" hidden></div>
+    <section class="source-card" aria-labelledby="source-heading">
+      <div class="source-heading"><h2 id="source-heading">Load your own stream</h2><p>Paste a direct video or playlist URL.</p></div>
+      <form id="source-form">
+        <div class="url-field"><label for="stream-url">Stream URL</label><input id="stream-url" name="url" type="url" required placeholder="https://example.com/playlist.m3u8" autocomplete="off" spellcheck="false" aria-describedby="source-hint"></div>
+        <div class="format-field"><label for="stream-format">Format</label><select id="stream-format" name="format"><option value="auto">Auto-detect</option><option value="application/x-mpegURL">HLS (.m3u8)</option><option value="application/dash+xml">DASH (.mpd)</option><option value="video/mp4">MP4</option></select></div>
+        <button class="load-button" type="submit">Load stream <span aria-hidden="true">↗</span></button>
+      </form>
+      <p id="source-hint" class="hint">Use an HTTPS media URL. HLS and DASH servers must allow cross-origin playback.</p>
+      <div class="samples"><span>TRY A SAMPLE</span><button type="button" data-sample="hls">HLS · Big Buck Bunny</button><button type="button" data-sample="mp4">MP4 · Oceans</button></div>
+    </section>
+    <footer><span>Built for the open web.</span><a href="/dist/videojs-http-streaming.min.js">Download streaming library <span aria-hidden="true">↗</span></a></footer>
+  </main>
+</body>
+</html>
