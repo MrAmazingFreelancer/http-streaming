@@ -18,7 +18,7 @@ jobs:
       packages: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
         # We neeed to fetch the entire history as conventional-changelog needs
         # access to any number of git commits to build the changelog.
         with:
@@ -30,7 +30,7 @@ jobs:
         id: nvm
 
       - name: setup node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v6
         with:
           node-version: '${{steps.nvm.outputs.NVMRC}}'
           cache: npm
@@ -40,11 +40,10 @@ jobs:
       - name: npm install
         run: npm i --prefer-offline --no-audit
 
-      # publish runs build for us via a prepublishOnly script
+      # publish runs build for us via a prepublishOnly script.
+      # auth uses npm trusted publishing (OIDC), which needs id-token: write.
       - name: npm release
         run: npm publish --tag next
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Check if this is a pre-release
         run: echo "IS_PRE_RELEASE=$(npx -p not-prerelease is-prerelease && echo "true" || echo "false")" >> $GITHUB_OUTPUT
@@ -69,7 +68,7 @@ jobs:
         if: env.NETLIFY_BASE != ''
 
       - name: Create Github release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v3
         with:
           body_path: CHANGELOG.md
           token: ${{github.token}}
@@ -77,5 +76,4 @@ jobs:
           files: |
             dist/**/*.js
             dist/**/*.css
-          discussion_category_name: Releases
 

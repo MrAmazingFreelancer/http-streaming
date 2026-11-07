@@ -1,5 +1,8 @@
 # Node.js deployment
 
+This player uses the official Video.js HTTP Streaming v3.17.6 source and
+dependency updates, with the local Express player retained.
+
 Use Node.js 22 or 24 LTS for deployment.
 
 Configure your hosting service with these commands:

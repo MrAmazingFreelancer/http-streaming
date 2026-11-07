@@ -1,6 +1,6 @@
 {
   "name": "@videojs/http-streaming",
-  "version": "3.17.4",
+  "version": "3.17.6",
   "description": "Play back HLS and DASH with Video.js, even where it's not natively supported",
   "main": "dist/videojs-http-streaming.cjs.js",
   "module": "dist/videojs-http-streaming.es.js",
@@ -14,10 +14,9 @@
     "build-test": "cross-env TEST_BUNDLE_ONLY=1 npm run bundle",
     "build-prod": "cross-env NO_TEST_BUNDLE=1 npm run bundle",
     "build": "npm run build-prod",
-    "bundle": "npm-run-all -s clean -p build:*",
     "build:js": "rollup -c scripts/rollup.config.js",
     "docs": "npm-run-all docs:*",
-    "docs:api": "jsdoc src -g plugins/markdown -r -d docs/api",
+    "docs:api": "jsdoc -c .jsdoc.json src -r -d docs/api",
     "docs:toc": "doctoc --notitle README.md",
     "docs:images:puml": "for i in docs/images/sources/*.puml; do npx water-uml export $i -f png -o \"docs/images/$(echo $i | cut -d '/' -f 4)\"; done",
     "docs:images:nomnoml": "node ./scripts/create-docs-images.js",
@@ -26,13 +25,14 @@
     "lint": "vjsstandard",
     "prepublishOnly": "npm-run-all build-prod && vjsverify --verbose --skip-es-check",
     "start": "node server.js",
-    "dev": "npm-run-all -p server watch",
     "server": "karma start scripts/karma.conf.js --singleRun=false --auto-watch",
     "test": "npm-run-all lint build-test && karma start scripts/karma.conf.js",
     "posttest": "[ \"$CI_TEST_TYPE\" != 'coverage' ] || shx cat test/dist/coverage/text.txt",
     "version": "vjs-update-changelog --add --run-on-prerelease",
     "watch": "npm-run-all -p watch:*",
-    "watch:js": "npm run build:js -- -w"
+    "watch:js": "npm run build:js -- -w",
+    "bundle": "npm-run-all -s clean -p build:*",
+    "dev": "npm-run-all -p server watch"
   },
   "keywords": [
     "videojs",
@@ -51,23 +51,25 @@
     ]
   },
   "files": [
+    "CHANGELOG.md",
     "CONTRIBUTING.md",
     "dist/",
     "docs/",
+    "!docs/api/",
     "index.html",
     "scripts/",
     "src/"
   ],
   "dependencies": {
     "@babel/runtime": "^7.12.5",
-    "@videojs/vhs-utils": "^4.1.1",
-    "aes-decrypter": "^4.0.2",
-    "express": "^4.22.3",
+    "@videojs/vhs-utils": "^4.1.3",
+    "aes-decrypter": "^4.0.3",
     "global": "^4.4.0",
-    "m3u8-parser": "^7.2.0",
-    "mpd-parser": "^1.3.1",
-    "mux.js": "7.1.0",
-    "video.js": "^7 || ^8"
+    "m3u8-parser": "^7.2.1",
+    "mpd-parser": "^1.4.1",
+    "mux.js": "7.1.1",
+    "video.js": "^7 || ^8",
+    "express": "^4.22.3"
   },
   "peerDependencies": {
     "video.js": "^8.19.0"
@@ -79,14 +81,13 @@
     "@rollup/plugin-strip": "^2.0.1",
     "@videojs/generator-helpers": "~3.1.0",
     "bootstrap": "^5.1.0",
-    "cross-env": "^7.0.3",
     "d3": "^3.4.8",
-    "jsdoc": "^3.6.11",
+    "jsdoc": "^4.0.5",
     "karma": "^6.4.0",
     "lodash": "^4.17.4",
     "lodash-compat": "^3.10.0",
     "nomnoml": "^1.5.2",
-    "rollup": "^2.36.1",
+    "rollup": "^2.80.0",
     "rollup-plugin-worker-factory": "0.5.7",
     "shelljs": "^0.8.5",
     "sinon": "^8.1.1",
@@ -95,17 +96,24 @@
     "videojs-contrib-quality-levels": "^4.0.0",
     "videojs-contrib-quality-menu": "^1.0.3",
     "videojs-generate-karma-config": "^8.0.1",
-    "videojs-generate-rollup-config": "^7.0.0",
+    "videojs-generate-rollup-config": "^7.0.2",
     "videojs-generator-verify": "~3.0.1",
     "videojs-standard": "^9.1.0",
-    "water-plant-uml": "^2.0.2"
+    "water-plant-uml": "^2.0.2",
+    "cross-env": "^7.0.3"
   },
   "generator-videojs-plugin": {
     "version": "7.6.3"
   },
   "engines": {
-    "node": ">=8",
-    "npm": ">=5"
+    "node": "^22.13.0 || >=24"
+  },
+  "overrides": {
+    "serialize-javascript": "^7.0.3",
+    "uuid": "^11.1.1",
+    "water-plant-uml": {
+      "axios": "^0.34.0"
+    }
   },
   "husky": {
     "hooks": {
