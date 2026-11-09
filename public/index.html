@@ -29,6 +29,10 @@
       <div class="player-caption"><span id="stream-name">HLS sample · Big Buck Bunny</span><span id="playback-status" role="status" aria-live="polite">Loading sample…</span></div>
     </section>
     <div id="player-error" class="error" role="alert" hidden></div>
+    <div class="stream-tools" aria-label="Stream actions">
+      <span id="stream-details">Checking stream…</span>
+      <div><button id="retry-stream" type="button">Retry stream</button><button id="copy-stream" type="button" disabled>Copy stream URL</button></div>
+    </div>
     <section class="source-card" aria-labelledby="source-heading">
       <div class="source-heading"><h2 id="source-heading">Load your own stream</h2><p>Paste a direct video or playlist URL.</p></div>
       <form id="source-form">
@@ -36,7 +40,7 @@
         <div class="format-field"><label for="stream-format">Format</label><select id="stream-format" name="format"><option value="auto">Auto-detect</option><option value="application/x-mpegURL">HLS (.m3u8)</option><option value="application/dash+xml">DASH (.mpd)</option><option value="video/mp4">MP4</option></select></div>
         <button class="load-button" type="submit">Load stream <span aria-hidden="true">↗</span></button>
       </form>
-      <p id="source-hint" class="hint">Use an HTTPS media URL. HLS and DASH servers must allow cross-origin playback.</p>
+      <p id="source-hint" class="hint">Paste a direct media URL, not a webpage link. Auto-detect checks the extension or server response. HLS and DASH servers must allow cross-origin playback.</p>
       <div class="samples"><span>TRY A SAMPLE</span><button type="button" data-sample="hls">HLS · Big Buck Bunny</button><button type="button" data-sample="mp4">MP4 · Oceans</button></div>
     </section>
     <footer><span>Built for the open web.</span><a href="/dist/videojs-http-streaming.min.js">Download streaming library <span aria-hidden="true">↗</span></a></footer>

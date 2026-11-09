@@ -24,6 +24,13 @@ loading HLS, DASH, or MP4 media URLs. The Video.js core, CSS, and streaming bund
 are served locally. Sample media is hosted externally; custom HLS and DASH
 sources must permit cross-origin requests and use HTTPS on a secure deployment.
 
+The player checks HLS and DASH playlist content before loading it and can detect
+extensionless media URLs from their response. Failed checks time out after 15
+seconds. It shows specific HTTP errors when the media server allows the browser
+to inspect its response, and provides Retry stream and Copy stream URL actions.
+Cross-origin restrictions can prevent the browser from identifying an HTTP error;
+the player reports this uncertainty rather than assuming a missing file.
+
 Use `npm run dev` for the original Karma server and build watcher. Use
 `npm run build-test` to build the test bundle.
 
