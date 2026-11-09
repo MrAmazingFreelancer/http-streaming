@@ -37,11 +37,40 @@
     errorBox.hidden = false;
   }
 
-  function load(source) {
+  let loadId = 0;
+
+  async function load(source) {
+    const requestId = ++loadId;
+
     errorBox.hidden = true;
     name.textContent = source.name;
     status.textContent = 'Loading…';
     player.pause();
+    if (source.type === 'application/x-mpegURL') {
+      try {
+        const response = await fetch(source.src, {signal: AbortSignal.timeout(15000)});
+        const manifest = await response.text();
+
+        if (requestId !== loadId) {
+          return;
+        }
+        if (!response.ok || !manifest.trimStart().startsWith('#EXTM3U')) {
+          status.textContent = 'Invalid HLS playlist';
+          showError('This URL does not return an HLS playlist. Use a direct playlist URL whose content starts with #EXTM3U.');
+          return;
+        }
+      } catch (error) {
+        if (requestId !== loadId) {
+          return;
+        }
+        status.textContent = 'Unable to load playlist';
+        showError('The playlist could not be downloaded. Check the URL, network connection, and the media server’s cross-origin settings.');
+        return;
+      }
+    }
+    if (requestId !== loadId) {
+      return;
+    }
     player.src({src: source.src, type: source.type});
   }
 
